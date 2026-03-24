@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login System</title>
+    <style>
+        body { font-family: Arial; }
+        .error { color: red; font-size: 14px; }
+        .success { color: green; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<h2>Login Page</h2>
+
+<form onsubmit="return validateLogin()">
+    <label>Username:</label><br>
+    <input type="text" id="username"><br>
+    <span id="userError" class="error"></span><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password"><br>
+    <span id="passError" class="error"></span><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p id="message"></p>
+
+<script>
+
+// Simulated Database (same as SQL data)
+let users = [
+    {username: "admin", password: "1234"},
+    {username: "student", password: "pass123"}
+];
+
+function validateLogin() {
+
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    let valid = true;
+
+    // Clear previous errors
+    document.getElementById("userError").innerText = "";
+    document.getElementById("passError").innerText = "";
+    document.getElementById("message").innerText = "";
+
+    // Username validation
+    if (username === "") {
+        document.getElementById("userError").innerText = "Username is required";
+        valid = false;
+    }
+
+    // Password validation
+    if (password === "") {
+        document.getElementById("passError").innerText = "Password is required";
+        valid = false;
+    }
+
+    if (!valid) return false;
+
+    // Check credentials
+    let userFound = users.find(user => 
+        user.username === username && user.password === password
+    );
+
+    if (userFound) {
+        document.getElementById("message").innerHTML = 
+            "<span class='success'>Login Successful!</span>";
+    } else {
+        document.getElementById("message").innerHTML = 
+            "<span class='error'>Invalid Username or Password</span>";
+    }
+
+    return false; // prevent page reload
+}
+
+</script>
+
+</body>
+</html>

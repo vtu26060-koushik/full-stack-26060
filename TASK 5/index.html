@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment & Order Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="header-highlight">
+            <h1>Customer Portal</h1>
+        </header>
+
+        <section class="summary-grid">
+            <div class="card balance-card">
+                <h3>Current Balance</h3>
+                <p class="amount">$750.00</p>
+            </div>
+            <div class="card status-card">
+                <h3>Most Active Status</h3>
+                <p>VIP Member</p>
+            </div>
+        </section>
+
+        <section class="payment-section">
+            <h3>Quick Payment</h3>
+            <form class="payment-form">
+                <input type="number" placeholder="Amount" required>
+                <select>
+                    <option>Select Merchant</option>
+                    <option>TechStore</option>
+                    <option>FashionHub</option>
+                </select>
+                <button type="submit" class="pay-btn">Process Transaction</button>
+            </form>
+        </section>
+
+        <section class="history-section">
+            <h3>Recent Order History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-05-10</td>
+                        <td>Wireless Mouse</td>
+                        <td>1</td>
+                        <td>$25.00</td>
+                    </tr>
+                    <tr>
+                        <td>2024-05-08</td>
+                        <td>Mechanical Keyboard</td>
+                        <td>1</td>
+                        <td>$120.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+</body>
+</html>

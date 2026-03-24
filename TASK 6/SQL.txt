@@ -1,0 +1,27 @@
+-- 1. Create the Audit Table
+CREATE TABLE AuditLogs (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    ActionType VARCHAR(10), -- 'INSERT' or 'UPDATE'
+    OrderID INT,
+    LogTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Create the Trigger (Automated Logging)
+DELIMITER //
+CREATE TRIGGER after_order_insert
+AFTER INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditLogs (ActionType, OrderID)
+    VALUES ('INSERT', NEW.OrderID);
+END; //
+DELIMITER ;
+
+-- 3. Create the View (Daily Activity Report)
+CREATE VIEW DailyActivityReport AS
+SELECT 
+    DATE(LogTime) as ActivityDate,
+    COUNT(CASE WHEN ActionType = 'INSERT' THEN 1 END) as TotalOrders,
+    COUNT(CASE WHEN ActionType = 'UPDATE' THEN 1 END) as TotalUpdates
+FROM AuditLogs
+GROUP BY DATE(LogTime);
