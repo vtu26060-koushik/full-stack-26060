@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dynamic Online Examination System</title>
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+}
+.container{
+    width:700px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    margin-top:40px;
+    border-radius:10px;
+    box-shadow:0 0 10px gray;
+}
+.center{
+    text-align:center;
+}
+button{
+    padding:8px 15px;
+    margin-top:10px;
+}
+.result{
+    font-size:20px;
+    font-weight:bold;
+    color:green;
+}
+.wrong{
+    color:red;
+    margin-top:5px;
+}
+.correct{
+    color:green;
+}
+.question{
+    text-align:left;
+    margin-top:15px;
+}
+.options{
+    margin-left:20px;
+    margin-bottom:10px;
+}
+</style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div class="container center" id="homePage">
+    <h1>Dynamic Online Examination</h1>
+    <h3>& Result Processing System</h3>
+    <p>Welcome to the Online Examination Portal</p>
+    <button onclick="goToLogin()">Enter System</button>
+</div>
+
+<!-- LOGIN PAGE -->
+<div class="container center" id="loginPage" style="display:none;">
+    <h2>Student Login</h2>
+    Username:<br>
+    <input type="text" id="username"><br><br>
+    Password:<br>
+    <input type="password" id="password"><br><br>
+    <button onclick="login()">Login</button>
+    <p id="loginMsg" style="color:red;"></p>
+</div>
+
+<!-- EXAM PAGE -->
+<div class="container" id="examPage" style="display:none;">
+    <h2 class="center">Online Examination (20 Questions)</h2>
+    <form id="examForm"></form>
+    <div class="center">
+        <button type="button" onclick="submitExam()">Submit Exam</button>
+        <p class="result" id="result"></p>
+    </div>
+    <div id="review"></div>
+</div>
+
+<script>
+
+function goToLogin(){
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("loginPage").style.display="block";
+}
+
+let questions = [
+["Capital of India?","Delhi","Mumbai","Chennai","Kolkata","Delhi"],
+["5 + 3 = ?","6","7","8","9","8"],
+["HTML stands for?","Hyper Text Markup Language","High Text Machine","Home Tool Markup","None","Hyper Text Markup Language"],
+["CSS used for?","Styling","Programming","Database","Hardware","Styling"],
+["Largest planet?","Earth","Mars","Jupiter","Venus","Jupiter"],
+["Python is?","Snake","Programming Language","Car","Game","Programming Language"],
+["2 * 6 = ?","10","12","14","16","12"],
+["RAM stands for?","Random Access Memory","Read Access","Run Memory","None","Random Access Memory"],
+["Which is OS?","Windows","Mouse","Keyboard","Monitor","Windows"],
+["Sun is a?","Planet","Star","Galaxy","Comet","Star"],
+["10 / 2 = ?","2","3","5","8","5"],
+["Keyboard is?","Input Device","Output","Storage","CPU","Input Device"],
+["India Independence Year?","1945","1947","1950","1930","1947"],
+["Binary of 2?","10","11","01","00","10"],
+["HTTP used for?","Web Communication","Cooking","Painting","Driving","Web Communication"],
+["1 Byte = ? bits","4","8","16","2","8"],
+["Which is DB?","MySQL","Chrome","Linux","Excel","MySQL"],
+["AI stands for?","Artificial Intelligence","Auto Input","Advanced Internet","None","Artificial Intelligence"],
+["Square root of 16?","2","3","4","5","4"],
+["CPU stands for?","Central Processing Unit","Control Unit","Computer Power","None","Central Processing Unit"]
+];
+
+function generateQuestions(){
+    let form=document.getElementById("examForm");
+    form.innerHTML="";
+    for(let i=0;i<questions.length;i++){
+        form.innerHTML+="<div class='question'><b>"+(i+1)+". "+questions[i][0]+"</b></div>";
+        form.innerHTML+="<div class='options'>";
+        for(let j=1;j<=4;j++){
+            form.innerHTML+=
+            '<label><input type="radio" name="q'+i+'" value="'+questions[i][j]+'"> '+questions[i][j]+'</label><br>';
+        }
+        form.innerHTML+="</div>";
+    }
+}
+
+function login(){
+    let user=document.getElementById("username").value;
+    let pass=document.getElementById("password").value;
+
+    if(user==="student" && pass==="1234"){
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("examPage").style.display="block";
+        generateQuestions();
+    }else{
+        document.getElementById("loginMsg").innerHTML="Invalid Username or Password!";
+    }
+}
+
+function submitExam(){
+    let score=0;
+    let review="";
+    for(let i=0;i<questions.length;i++){
+        let selected=document.querySelector('input[name="q'+i+'"]:checked');
+        let correctAnswer=questions[i][5];
+
+        if(selected){
+            if(selected.value===correctAnswer){
+                score++;
+            }else{
+                review+="<div class='wrong'>Question "+(i+1)+": Wrong ❌<br>Your Answer: "
+                +selected.value+"<br>Correct Answer: <span class='correct'>"
+                +correctAnswer+"</span></div><br>";
+            }
+        }else{
+            review+="<div class='wrong'>Question "+(i+1)+": Not Attempted ❌<br>Correct Answer: <span class='correct'>"
+            +correctAnswer+"</span></div><br>";
+        }
+    }
+
+    document.getElementById("result").innerHTML=
+    "Exam Completed! Your Score: "+score+" / "+questions.length;
+
+    document.getElementById("review").innerHTML=review;
+}
+
+</script>
+
+</body>
+</html>
